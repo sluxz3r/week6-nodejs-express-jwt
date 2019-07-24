@@ -11,22 +11,35 @@ module.exports = {
         } else {
           reject(new Error(err))
         }
-      }) 
+      })
     })
   },
 
-// Get Borrow 
-    getBorrows: (bookid) => {
-      return new Promise((resolve, reject) => {
-        conn.query('SELECT * FROM status WHERE bookid=?', bookid, (err, result) => {
-          if (!err) {
-            resolve(result)
-          } else {
-            reject(new Error(err))
-          }
-        }) 
+  // Get Borrow by id
+  getBorrows: (bookid) => {
+    return new Promise((resolve, reject) => {
+      conn.query('SELECT * FROM status WHERE bookid=?', bookid, (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
       })
-    },
+    })
+  },
+
+  // get borrow by user ktp
+  userBorrows: (user_id) => {
+    return new Promise((resolve, reject) => {
+      conn.query('SELECT book.name, status.tanggal_pinjam, status.tanggal_kembali, status.harus_kembali, status.denda FROM book INNER JOIN status ON book.bookid=status.bookid WHERE status.user_id=?', user_id, (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
+      })
+    })
+  },
 
   // Get by Name
   nameBook: (name) => {
@@ -38,7 +51,7 @@ module.exports = {
         } else {
           reject(new Error(err))
         }
-      }) 
+      })
     })
   },
 
@@ -47,13 +60,13 @@ module.exports = {
     return new Promise((resolve, reject) => {
       conn.query('SELECT book.bookid, book.name, book.writer, book.des, book.image, book.status_borrow, cat.category, loc.location FROM book INNER JOIN cat ON book.fk_cat=cat.catid INNER JOIN loc ON book.fk_loc=loc.locid WHERE book.bookid = ?', bookid, (err, result) => {
         if (!err) {
-        resolve(result)
-      } else {
-        reject( new Error(err))
-      }
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
+      })
     })
-  })
-},
+  },
 
   // Get By Category
   bookCategory: (category) => {
@@ -101,7 +114,7 @@ module.exports = {
         if (!err) {
           resolve(result)
         } else {
-            reject(new Error(err))
+          reject(new Error(err))
         }
       })
     })
@@ -112,35 +125,11 @@ module.exports = {
     return new Promise((resolve, reject) => {
       conn.query('DELETE FROM book WHERE bookid = ?', bookid, (err) => {
         if (!err) {
-          resolve( `Data dengan Id : ${bookid} berhasil di Hapus`)
+          resolve(`Data dengan Id : ${bookid} berhasil di Hapus`)
         } else {
           reject(new Error(err))
         }
       })
     })
   },
-
-  register: (data) => {
-    return new Promise((resolve, reject) => {
-      conn.query('INSERT INTO user SET ?', data, (err, result) => {
-        if (!err) {
-          resolve(result)
-        } else {
-          reject(err)
-        }
-      })
-    })
-  },
-
-  getByEmail: (email) => {
-    return new Promise((resolve, reject) => {
-      conn.query('SELECT userid, email, status, fullname, created_at, updated_at, salt, password FROM user WHERE email = ?', email, (err, result) => {
-        if (!err) {
-          resolve(result)
-        } else {
-          reject(new Error(err))
-        }
-      })
-    })
-  }
 }
