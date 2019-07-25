@@ -14,6 +14,18 @@ module.exports = {
         })
       },
 
+      userid: (userid) => {
+        return new Promise((resolve, reject) => {
+          conn.query('SELECT userid, email, status, user_ktp, fullname, token FROM user WHERE userid = ?', userid, (err, result) => {
+            if (!err) {
+              resolve(result)
+            } else {
+              reject(new Error(err))
+            }
+          })
+        })
+      },
+
       deleteMember: (userid) => {
         return new Promise((resolve, reject) => {
           conn.query('DELETE FROM user WHERE userid = ?', userid, (err) => {
@@ -48,5 +60,17 @@ module.exports = {
             }
           })
         })
-      }
+      },
+
+      updateToken: (email, token) => {
+        return new Promise((resolve, reject) => {
+            conn.query(`UPDATE user SET token = ? WHERE email =?`, [token, email], (err, result) => {
+                if (!err) {
+                    resolve(result)
+                } else {
+                    reject(new Error(err))
+                }
+            })
+        })
+    },
 }

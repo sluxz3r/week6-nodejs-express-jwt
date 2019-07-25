@@ -15,6 +15,19 @@ member: (req, res) => {
     })
   },
 
+  //get user by token
+  userid: (req, res) => {
+    const userid = req.params.userid
+    userModels.userid(userid)
+      .then((resultBook) => {
+        const result = resultBook
+        BookHelper.response(res, result, 200)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  },
+
   listMember: (req, res) => {
     const userid = req.params.userid
     userModels.member()
@@ -77,10 +90,17 @@ member: (req, res) => {
           if (usePassword === dataUser.password) {
             dataUser.token = jwt.sign({
               userid: dataUser.userid
-            }, process.env.SECRET_KEY, { expiresIn: '1h' })
+            }, process.env.SECRET_KEY, { expiresIn: '12h' })
   
             delete dataUser.salt
             delete dataUser.password
+            userModels.updateToken(email, dataUser.token)
+                        .then((result) => {
+                          
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
   
             return BookHelper.response(res, dataUser, 200)
           } else {

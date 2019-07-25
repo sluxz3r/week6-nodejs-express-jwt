@@ -10,6 +10,7 @@ const Auth = require('../helpers/auth')
 Route
   .get('/cek', Auth.authInfo, Auth.accesstoken, BookController.getIndex)
   .get('/user/', Auth.authInfo, Auth.accesstoken, UserController.member)
+  .get('/user/:userid', Auth.authInfo, Auth.accesstoken, UserController.userid)
   .get('/', BookController.getBooks)
   .get('/lah/:bookid',Auth.authInfo, Auth.accesstoken, BookController.getBorrows)
   .get('/lah/user/:user_id', Auth.authInfo, Auth.accesstoken, BookController.userBorrows)
