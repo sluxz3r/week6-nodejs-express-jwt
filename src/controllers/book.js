@@ -1,4 +1,4 @@
-const bookModels = require('../models/models')
+const bookModels = require('../models/book')
 const BookHelper = require('../helpers/helpers')
 const jwt = require('jsonwebtoken')
 

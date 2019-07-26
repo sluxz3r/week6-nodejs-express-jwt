@@ -111,5 +111,18 @@ member: (req, res) => {
           console.log(error)
         })
   
-    }
+    },
+
+    destroyToken:(req, res) => {
+      const userid = req.params.userid;
+  
+      userModels.destroyToken(userid)
+        .then((resultUser) => {
+          const result = resultUser[0]
+          BookHelper.response(res, result, 200)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
 }

@@ -73,4 +73,17 @@ module.exports = {
             })
         })
     },
+
+    destroyToken: (userid) => {
+      const test = 'test';
+      return new Promise((resolve, reject) => {
+          conn.query(`UPDATE user SET token = ? WHERE userid =?`, [test, userid], (err, result) => {
+              if (!err) {
+                  resolve(result)
+              } else {
+                  reject(new Error(err))
+              }
+          })
+      })
+  },
 }

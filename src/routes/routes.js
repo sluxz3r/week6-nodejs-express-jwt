@@ -1,7 +1,7 @@
 const express = require('express')
 const Route = express.Router()
 
-const BookController = require('../controllers/controllers')
+const BookController = require('../controllers/book')
 const BorrowController = require('../controllers/borrow');
 const UserController = require('../controllers/user');
 
@@ -14,11 +14,11 @@ Route
   .get('/', BookController.getBooks)
   .get('/lah/:bookid',Auth.authInfo, Auth.accesstoken, BookController.getBorrows)
   .get('/lah/user/:user_id', Auth.authInfo, Auth.accesstoken, BookController.userBorrows)
-
   .get('/name', BookController.nameBook)
   .get('/:bookid', BookController.bookId)
   .get('/category/:category', BookController.bookCategory)
   .get('/location/:location', BookController.bookLocation)
+
   .post('/', BookController.postBook)
   .patch('/:bookid', BookController.patchBook)
   .delete('/:bookid', BookController.bookDelete)
@@ -30,5 +30,6 @@ Route
   
   .post('/register/', UserController.register)
   .post('/login/',  Auth.authInfo, UserController.login)
+  .patch('/token/:userid', UserController.destroyToken)
 
 module.exports = Route
