@@ -18,7 +18,7 @@ module.exports = {
   // Get Borrow by id
   getBorrows: (bookid) => {
     return new Promise((resolve, reject) => {
-      conn.query('SELECT * FROM status WHERE bookid=?', bookid, (err, result) => {
+      conn.query('SELECT * FROM status WHERE bookid=? and validasi is null', bookid, (err, result) => {
         if (!err) {
           resolve(result)
         } else {

@@ -29,7 +29,6 @@ member: (req, res) => {
   },
 
   listMember: (req, res) => {
-    const userid = req.params.userid
     userModels.member()
     .then((resultBook) => {
       const result = resultBook

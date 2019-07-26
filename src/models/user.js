@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 module.exports = {
     member: () => {
         return new Promise((resolve, reject) => {
-          conn.query('SELECT fullname, userid, user_ktp, email FROM user WHERE status=1', (err, result) => {
+          conn.query(`SELECT fullname, userid, user_ktp, email FROM user WHERE status=1 `, (err, result) => {
             if (!err) {
               resolve(result)
             } else {
@@ -44,7 +44,7 @@ module.exports = {
             if (!err) {
               resolve(result)
             } else {
-              reject(err)
+              reject(new Error(err))
             }
           })
         })

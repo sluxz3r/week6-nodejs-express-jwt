@@ -26,6 +26,8 @@ const corsOptions = (req, callback) => {
   }
 }
 
+
+
 app.use(Cors())
 app.options('*', Cors(corsOptions))
 app.use(xssFilter())
