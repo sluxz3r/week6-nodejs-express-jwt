@@ -3,14 +3,13 @@ const conn = require('../configs/db');
 module.exports = {
       postBorrow: (newBorrow, result) => {
         return new Promise((resolve, reject) => {
-          conn.query('UPDATE status SET validasi = 1 WHERE user_id= ? and validasi is null',[newBorrow.user_id], (err, result) => {
+          conn.query('INSERT INTO status SET ? ', newBorrow, (err, result) => {
             if (!err) {
               resolve(result)
             } else {
               reject(new Error(err))
             }
           })
-          conn.query('INSERT INTO status SET ? ', [newBorrow])
           conn.query(`UPDATE book SET status_borrow = 1 WHERE bookid =?`, [newBorrow.bookid])
         })
       },
