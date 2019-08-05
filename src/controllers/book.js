@@ -127,13 +127,14 @@ module.exports = {
 
   // POST User
   postBook: (req, res) => {
+    const url = 'https://sluxzer-library.herokuapp.com'
     const data = {
       name: req.body.name,
       writer: req.body.writer,
       des: req.body.des,
       fk_loc: req.body.fk_loc,
       fk_cat: req.body.fk_cat,
-      image: "http://localhost:6969/" + req.file.filename,
+      image: `${url}` + req.file.filename,
       created_at: new Date(),
       status_borrow: 0
 
