@@ -89,7 +89,7 @@ member: (req, res) => {
           if (usePassword === dataUser.password) {
             dataUser.token = jwt.sign({
               userid: dataUser.userid
-            }, process.env.SECRET_KEY, { expiresIn: '12h' })
+            }, process.env.SECRET_KEY || "ARI", { expiresIn: '12h' })
   
             delete dataUser.salt
             delete dataUser.password
