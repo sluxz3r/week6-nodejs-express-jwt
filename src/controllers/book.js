@@ -19,6 +19,32 @@ module.exports = {
       })
   },
 
+  // Get ALl Books
+  getPagination: (req, res) => {
+    let limit = parseInt(req.query.limit) || 4
+    let page = parseInt(req.query.page) || 1
+    bookModels.getPagination(limit, page)
+      .then((resultBook) => {
+        const result = resultBook
+        BookHelper.response(res, result, 200)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  },
+
+  // user get by id
+  borrowList: (req, res) => {
+    bookModels.borrowList()
+      .then((resultBook) => {
+        const result = resultBook
+        BookHelper.response(res, result, 200)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  },
+
   // user get by id
   getBorrows: (req, res) => {
     const bookid = req.params.bookid
@@ -31,7 +57,7 @@ module.exports = {
         console.log(error)
       })
   },
-// user get borrow by ktp
+  // user get borrow by ktp
   userBorrows: (req, res) => {
     const user_id = req.params.user_id
     bookModels.userBorrows(user_id)
@@ -107,7 +133,7 @@ module.exports = {
       des: req.body.des,
       fk_loc: req.body.fk_loc,
       fk_cat: req.body.fk_cat,
-      image: req.body.image,
+      image: "http://localhost:6969/" + req.file.filename,
       created_at: new Date(),
       status_borrow: 0
 

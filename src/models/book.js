@@ -15,6 +15,32 @@ module.exports = {
     })
   },
 
+   // Get All Books Pagination
+   getPagination: (limit, page) => {
+    let offset = (limit * page) - limit
+    return new Promise((resolve, reject) => {
+      conn.query('SELECT book.bookid, book.name, book.writer, book.des, book.image, book.status_borrow, cat.category, loc.location FROM book INNER JOIN cat ON book.fk_cat=cat.catid INNER JOIN loc ON book.fk_loc=loc.locid LIMIT ? OFFSET ? ', [limit, offset], (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
+      })
+    })
+  },
+
+  borrowList: () => {
+    return new Promise((resolve, reject) => {
+      conn.query('SELECT status.id, status.tanggal_pinjam, status.tanggal_kembali, status.harus_kembali, status.denda, book.image, book.name, book.writer, user.fullname FROM status INNER JOIN book ON status.bookid=book.bookid INNER JOIN user ON status.user_id=user.user_ktp ', (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
+      })
+    })
+  },
+
   // Get Borrow by id
   getBorrows: (bookid) => {
     return new Promise((resolve, reject) => {
@@ -31,7 +57,7 @@ module.exports = {
   // get borrow by user ktp
   userBorrows: (user_id) => {
     return new Promise((resolve, reject) => {
-      conn.query('SELECT book.name, status.tanggal_pinjam, status.tanggal_kembali, status.harus_kembali, status.denda FROM book INNER JOIN status ON book.bookid=status.bookid WHERE status.user_id=?', user_id, (err, result) => {
+      conn.query('SELECT book.name, book.image, book.writer, status.tanggal_pinjam, status.tanggal_kembali, status.harus_kembali, status.denda FROM book INNER JOIN status ON book.bookid=status.bookid WHERE status.user_id=?', user_id, (err, result) => {
         if (!err) {
           resolve(result)
         } else {
