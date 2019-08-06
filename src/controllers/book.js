@@ -1,6 +1,7 @@
 const bookModels = require('../models/book')
 const BookHelper = require('../helpers/helpers')
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const cloudinary = require('cloudinary')
 
 module.exports = {
   getIndex: (req, res) => {
@@ -127,14 +128,30 @@ module.exports = {
 
   // POST User
   postBook: (req, res) => {
-    const url = 'https://sluxzer-library.herokuapp.com'
+    let path = req.file.path
+    let geturl = async (req) => {
+      cloudinary.config({
+        cloud_name: 'rizkigumilar',
+        api_key: '676637538629816',
+        api_secret: '207vgph1yEpDtt_G0XcHikhQOY4'
+      })
+
+      let data
+      await cloudinary.uploader.upload(path, (result) => {
+        const fs = require('fs')
+        fs.unlinkSync(path)
+        data = result.url
+      })
+
+      return data
+    }
     const data = {
       name: req.body.name,
       writer: req.body.writer,
       des: req.body.des,
       fk_loc: req.body.fk_loc,
       fk_cat: req.body.fk_cat,
-      image: `${url}` + req.file.filename,
+      image: await geturl(),
       created_at: new Date(),
       status_borrow: 0
 
