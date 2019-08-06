@@ -127,7 +127,7 @@ module.exports = {
   },
 
   // POST User
-  postBook: (req, res) => {
+  postBook: async (req, res) => {
     let path = req.file.path
     let geturl = async (req) => {
       cloudinary.config({
