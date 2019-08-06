@@ -131,9 +131,9 @@ module.exports = {
     let path = req.file.path
     let geturl = async (req) => {
       cloudinary.config({
-        cloud_name: 'rizkigumilar',
-        api_key: '676637538629816',
-        api_secret: '207vgph1yEpDtt_G0XcHikhQOY4'
+        cloud_name: 'dbhwvh1mf',
+        api_key: '718924645383124',
+        api_secret: 'yhTauEiKkLgr62XpgGTvsALrwUU'
       })
 
       let data
